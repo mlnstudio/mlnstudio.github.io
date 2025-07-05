@@ -11,15 +11,6 @@
     <!-- Link Fira Code font for headings and techy elements -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Supabase SDK -->
-    <!-- The Supabase SDK exposes a global 'supabase' object -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2.43.2/dist/umd/supabase.min.js"></script>
-
-    <!-- React and ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <style>
         /* Base styles for the entire page */
         body {
@@ -371,7 +362,7 @@
         }
 
 
-        /* Contribute Section Form (React Component Styles) */
+        /* Contribute Section Form Styles */
         .contribute-form-container {
             background-color: #282828;
             padding: 40px;
@@ -437,27 +428,6 @@
         .contribute-form-container button[type="submit"]:hover {
             background-color: #E000E0;
             box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
-        }
-
-        /* Form submission message */
-        .form-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .form-message.success {
-            background-color: #00FF0020; /* Light neon green background */
-            color: #00FF00; /* Neon green text */
-            border: 1px solid #00FF00;
-        }
-
-        .form-message.error {
-            background-color: #FF000020; /* Light red background */
-            color: #FF0000; /* Red text */
-            border: 1px solid #FF0000;
         }
 
         /* Footer */
@@ -806,8 +776,44 @@
 
         <h3>Apply to Contribute</h3>
         <p>Fill out the form below to let us know about your interest and skills. We'll get back to you!</p>
-        <div id="contributeFormRoot">
-            <!-- React component will be mounted here -->
+        
+        <div class="contribute-form-container">
+            <!-- The Formspree endpoint is now correctly set to your provided URL -->
+            <form action="https://formspree.io/f/manjzepl" method="POST">
+                <label htmlFor="name">Your Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                />
+
+                <label htmlFor="email">Your Email:</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                />
+
+                <label htmlFor="skills">Your Skills (e.g., C, Assembly, Python, UI/UX, Documentation):</label>
+                <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    placeholder="List your relevant skills"
+                />
+
+                <label htmlFor="reason">Why do you want to join MLN Studio?</label>
+                <textarea
+                    id="reason"
+                    name="reason"
+                    rows="5"
+                    required
+                ></textarea>
+
+                <button type="submit">Submit Application</button>
+            </form>
         </div>
     </section>
 
@@ -873,153 +879,7 @@
         <p>&copy; 2025 MLN Studio. All rights reserved.</p>
     </footer>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // IMPORTANT: Replace with your actual Supabase URL and Anon Key
-        // The Anon Key you provided is: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwcWd2a2Zlbm15aW9kbHd5b3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MTE0MjAsImV4cCI6MjA2NzI4NzQyMH0.NbVS8a--5I82cLD8YbvAONC0fu4Njo1_XiKZYnaUGow
-        // From the 'ref' part of your key, the URL should be: jpqgvkfenmyiodlwyoyq.supabase.co
-        const SUPABASE_URL = 'https://jpqgvkfenmyiodlwyoyq.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwcWd2a2Zlbm15aW9kbHd5b3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MTE0MjAsImV4cCI6MjA2NzI4NzQyMH0.NbVS8a--5I82cLD8YbvAONC0fu4Njo1_XiKZYnaUGow';
-
-        // Initialize Supabase client inside the component's useEffect for reliable loading
-        // and ensure it's only created once.
-        let supabaseClientInstance = null; // Use a distinct variable name for the instance
-
-        function ContributeForm() {
-            const [name, setName] = useState('');
-            const [email, setEmail] = useState('');
-            const [skills, setSkills] = useState('');
-            const [reason, setReason] = useState('');
-            const [message, setMessage] = useState('');
-            const [messageType, setMessageType] = useState(''); // 'success' or 'error'
-            const [loading, setLoading] = useState(false);
-            const [supabaseReady, setSupabaseReady] = useState(false);
-
-            useEffect(() => {
-                // Initialize Supabase client only once when the component mounts
-                if (!supabaseClientInstance) {
-                    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
-                        supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                        setSupabaseReady(true);
-                        console.log("Supabase client initialized successfully within useEffect.");
-                    } else {
-                        console.error("Supabase JS library not loaded or 'supabase' global object is missing on initial check.");
-                        // Optional: Add a retry mechanism here if needed, but direct script loading should be reliable.
-                    }
-                } else {
-                    setSupabaseReady(true); // If already initialized, just set ready state
-                }
-            }, []); // Empty dependency array ensures this runs only once on mount
-
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-                setMessage('');
-                setMessageType('');
-                setLoading(true);
-
-                if (!supabaseReady || !supabaseClientInstance) {
-                    setMessage('Supabase is not ready. Please ensure your Supabase URL and Anon Key are correct and the library has loaded.');
-                    setMessageType('error');
-                    setLoading(false);
-                    return;
-                }
-
-                try {
-                    const { data, error } = await supabaseClientInstance
-                        .from('contributions') // This is your table name in Supabase
-                        .insert([
-                            {
-                                name: name,
-                                email: email,
-                                skills: skills,
-                                reason: reason,
-                                timestamp: new Date().toISOString() // Store timestamp as ISO string
-                            }
-                        ]);
-
-                    if (error) {
-                        throw error;
-                    }
-
-                    setMessage('Application submitted successfully! We will get back to you soon.');
-                    setMessageType('success');
-                    setName('');
-                    setEmail('');
-                    setSkills('');
-                    setReason('');
-                } catch (error) {
-                    console.error("Error submitting to Supabase: ", error);
-                    setMessage('There was an error submitting your application. Please try again. Error: ' + error.message);
-                    setMessageType('error');
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            return (
-                <div className="contribute-form-container">
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="name">Your Name:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-
-                        <label htmlFor="email">Your Email:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-
-                        <label htmlFor="skills">Your Skills (e.g., C, Assembly, Python, UI/UX, Documentation):</label>
-                        <input
-                            type="text"
-                            id="skills"
-                            name="skills"
-                            value={skills}
-                            onChange={(e) => setSkills(e.target.value)}
-                            placeholder="List your relevant skills"
-                        />
-
-                        <label htmlFor="reason">Why do you want to join MLN Studio?</label>
-                        <textarea
-                            id="reason"
-                            name="reason"
-                            rows="5"
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                            required
-                        ></textarea>
-
-                        <button type="submit" disabled={loading || !supabaseReady}>
-                            {loading ? 'Submitting...' : 'Submit Application'}
-                        </button>
-                    </form>
-                    {message && (
-                        <div className={`form-message ${messageType}`}>
-                            {message}
-                        </div>
-                    )}
-                </div>
-            );
-        }
-
-        // Mount the React component
-        const domContainer = document.getElementById('contributeFormRoot');
-        if (domContainer) {
-            const root = ReactDOM.createRoot(domContainer);
-            root.render(<ContributeForm />);
-        }
-
+    <script>
         // General JS for navigation and hamburger menu
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-links a');
