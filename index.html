@@ -776,14 +776,30 @@
 
         <h3>Apply to Contribute</h3>
         <p>Fill out the form below to let us know about your interest and skills. We'll get back to you!</p>
-        <form action="YOUR_FORMSPREE_ENDPOINT" method="POST">
-            <!-- IMPORTANT: Replace "YOUR_FORMSPREE_ENDPOINT" with your actual Formspree form URL -->
-            <!-- Example: <form action="https://formspree.io/f/yourformid" method="POST"> -->
+        <form action="https://script.google.com/macros/s/AKfycbwjWL9srVoYg_iEfKl9on94iwMxHS7lF7ToxVE9thAim-696eK3M3OeSY7AkQ2EzmqFtg/exec" method="POST">
+            <!-- IMPORTANT: This form uses Google Apps Script to submit data to a Google Sheet.
+                 The 'action' URL above must be your deployed Google Apps Script Web App URL.
+                 Make sure your Google Apps Script is correctly configured to accept POST requests
+                 and has access set to 'Anyone'.
+                 The Google Apps Script code should look like this (in Code.gs):
+                 function doPost(e) {
+                   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); // Adjust sheet name if needed
+                   const row = [];
+                   row.push(new Date()); // Timestamp
+                   row.push(e.parameter.name);
+                   row.push(e.parameter.email);
+                   row.push(e.parameter.skills);
+                   row.push(e.parameter.reason);
+                   sheet.appendRow(row);
+                   return ContentService.createTextOutput(JSON.stringify({ result: "success" }))
+                                  .setMimeType(ContentService.MimeType.JSON);
+                 }
+            -->
             <label for="name">Your Name:</label>
             <input type="text" id="name" name="name" required>
 
             <label for="email">Your Email:</label>
-            <input type="email" id="email" name="_replyto" required>
+            <input type="email" id="email" name="email" required> <!-- Changed name to 'email' for consistency with common practices -->
 
             <label for="skills">Your Skills (e.g., C, Assembly, Python, UI/UX, Documentation):</label>
             <input type="text" id="skills" name="skills" placeholder="List your relevant skills">
