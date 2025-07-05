@@ -1,55 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLN Studio - Open Source Freedom</title>
+    <!-- Link Roboto font for general text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Link Fira Code font for headings and techy elements -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* تنظیمات پایه */
+        /* Base styles for the entire page */
         body {
             margin: 0;
-            font-family: 'Fira Code', monospace; /* استفاده از فونت monospace */
-            color: #e0e0e0; /* رنگ متن اصلی */
-            background-color: #0d0d1a; /* رنگ پس‌زمینه کلی */
-            overflow-x: hidden; /* جلوگیری از اسکرول افقی */
+            font-family: 'Roboto', sans-serif; /* Default font for body */
+            color: #cccccc; /* Light grey text color */
+            background-color: #121212; /* Very dark grey background */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            line-height: 1.6;
         }
 
-        /* کانتینر اصلی بخش Hero */
+        /* General section styling */
+        section {
+            padding: 80px 5%;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Ensure content is above background elements */
+        }
+
+        section:nth-of-type(even) { /* Alternate section background for visual variety */
+            background-color: #1e1e1e; /* Slightly lighter dark grey */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fira Code', monospace; /* Hacker-style font for headings */
+            color: #00FF00; /* Neon Green for headings */
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+        }
+
+        /* General button styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1em;
+            font-family: 'Fira Code', monospace; /* Hacker font for buttons */
+        }
+
+        .btn-primary {
+            background-color: #FF00FF; /* Neon Pink/Magenta */
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: #E000E0; /* Darker Pink */
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #00FF00; /* Neon Green */
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* Navigation Bar (Navbar) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.8); /* Semi-transparent very dark grey */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000; /* Highest layer */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar .logo {
+            font-family: 'Fira Code', monospace; /* Hacker font for logo */
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00FF00; /* Neon Green for logo */
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin-right: 30px;
+        }
+
+        .navbar .nav-links a {
+            color: #cccccc; /* Light grey */
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.1em;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #00FFFF; /* Electric Cyan */
+            text-shadow: 0 0 8px #00FFFF;
+        }
+
+        /* Navbar "Join Us" button */
+        .navbar .nav-cta {
+            background-color: #FF00FF; /* Neon Pink/Magenta */
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+        }
+
+        .navbar .nav-cta:hover {
+            background-color: #E000E0;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+        }
+
+        /* Hero Section */
         .hero-container {
             width: 100%;
-            min-height: 100vh; /* تمام ارتفاع صفحه */
-            background: linear-gradient(to bottom right, #1a1a2e, #16213e, #0f3460); /* پس‌زمینه تیره با گرادیانت */
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #121212, #0a0a0a); /* Dark grey gradient */
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
-            /* می تونید یک تصویر پس زمینه تکنولوژیک با opacity کم اینجا اضافه کنید */
-            /* background-image: url('path/to/your/tech-bg.png'); */
-            /* background-size: cover; */
-            /* background-position: center; */
-            /* background-blend-mode: overlay; */
         }
 
-        /* کادر محتوا شبیه ویدئو/شیشه مات */
+        /* Background video */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Video covers the entire container */
+            z-index: -1; /* Video behind content */
+            opacity: 0.15; /* Reduced opacity for subtlety */
+        }
+
+        /* Content box in Hero */
         .content-box {
             background-color: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 50px;
             text-align: center;
             max-width: 900px;
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2); /* سایه نئونی آبی */
-            backdrop-filter: blur(8px); /* افکت شیشه مات */
-            -webkit-backdrop-filter: blur(8px); /* برای سازگاری با Safari */
-            transform: scale(0.95); /* کمی کوچک‌تر برای شروع */
-            opacity: 0; /* ابتدا نامرئی */
-            animation: fadeInScale 1s ease-out forwards; /* انیمیشن ورود کادر */
-            animation-delay: 0.2s; /* کمی تاخیر بعد از بارگذاری صفحه */
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.1); /* Neon Green shadow */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0; /* Initially hidden */
+            animation: fadeInScale 1s ease-out forwards;
+            animation-delay: 0.2s;
         }
 
         @keyframes fadeInScale {
@@ -57,78 +199,18 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* پدیدار شدن MLN STUDIO */
-        .mln-studio-reveal {
-            font-size: 3em;
-            color: #00e0ff; /* رنگ آبی فیروزه‌ای */
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* انیمیشن نرم */
-            margin-bottom: 30px;
-            letter-spacing: 0.1em; /* فاصله بین حروف */
-            text-shadow: 0 0 10px #00e0ff, 0 0 20px #00e0ff; /* افکت نئون */
-        }
-
-        .mln-studio-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* استایل های متن های تایپ شده (شعارها) */
-        .typed-text {
-            font-size: 1.8em;
-            color: #e0e0e0;
-            white-space: nowrap; /* جلوگیری از شکستن خط */
-            overflow: hidden; /* مخفی کردن متن بیرون از عرض */
-            border-right: .15em solid; /* کرسر، رنگش با JS تغییر میکنه */
-            animation: blink-caret .75s step-end infinite; /* فقط کرسر چشمک می زنه */
-            width: 0; /* عرض اولیه صفر برای مخفی بودن */
-            display: inline-block; /* برای اینکه width کار کنه */
-            padding-right: 5px; /* کمی فاصله برای کرسر */
-            text-align: left;
-            margin: 10px 0;
-            will-change: width, border-color; /* بهینه سازی پرفورمنس */
-            line-height: 1.4; /* فاصله خطوط */
-        }
-
-        /* استایل خاص برای شعار اصلی (خط اول) */
-        .typed-text:first-of-type {
+        /* "JOIN US" animation (for the hero section's button) */
+        .hero-cta-button {
+            font-family: 'Fira Code', monospace;
+            font-size: 2.5em; /* Larger for hero section */
             font-weight: bold;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-        }
-
-        /* انیمیشن کرسر چشمک زن (رنگ از طریق متغیر CSS تنظیم می شود) */
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--caret-color, #fff); } /* پیش فرض سفید */
-        }
-
-        /* انیمیشن "JOIN US" */
-        .join-us-container {
-            margin-top: 50px;
-            min-height: 80px; /* برای ایجاد فضای کافی قبل از ظهور */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .join-us-text {
-            font-size: 4em;
-            font-weight: bold;
-            color: #ff00ff; /* رنگ بنفش نئونی */
-            text-decoration: none; /* چون لینک هست */
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
-            opacity: 0;
-            transform: scale(0.5); /* کوچک شده در ابتدا */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            cursor: pointer; /* نشانگر ماوس */
-        }
-
-        .join-us-text.active {
-            opacity: 1;
-            transform: scale(1);
-            animation: slam-bounce 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* تابع زمان بندی کوبنده */
+            color: #FF00FF; /* Neon Pink/Magenta */
+            text-decoration: none;
+            text-shadow: 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 40px #FF00FF;
+            opacity: 0; /* Hidden initially */
+            transform: scale(0.5); /* Small initially */
+            animation: slam-bounce 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            animation-delay: 2s; /* Delay to appear after content box */
         }
 
         @keyframes slam-bounce {
@@ -138,99 +220,675 @@
             100% { transform: scale(1); }
         }
 
-        /* ریسپانسیو برای موبایل */
+        /* About Section */
+        .about-section .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .about-section .value-item {
+            background-color: #282828; /* Medium dark grey */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.1); /* Neon Green shadow */
+            transition: transform 0.3s ease;
+        }
+
+        .about-section .value-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .about-section .value-item h3 {
+            color: #00FF00; /* Neon Green */
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        /* Products Section */
+        .products-section .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .products-section .product-card {
+            background-color: #282828;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.1); /* Electric Cyan shadow */
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .products-section .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .products-section .product-card h3 {
+            color: #00FFFF; /* Electric Cyan */
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .products-section .product-card p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        /* Gallery Section */
+        .gallery-section .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .gallery-section .gallery-item {
+            background-color: #282828;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .gallery-section .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        .gallery-section .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-section .gallery-item p {
+            padding: 15px;
+            margin: 0;
+            font-size: 0.95em;
+            color: #e0e0e0;
+        }
+
+        /* Specific Project Sections (MLN OS, MLN Rooms, Nermux, Morningglory WM) */
+        .project-detail-section {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: #1a1a1a; /* Slightly different dark background */
+        }
+        .project-detail-section:nth-of-type(odd) {
+            background-color: #121212; /* Alternate for contrast */
+        }
+        .project-detail-section h2 {
+            color: #00FF00; /* Neon Green */
+        }
+        .project-detail-section p {
+            margin-bottom: 30px;
+        }
+        .project-detail-section .btn {
+            margin: 15px;
+        }
+
+        /* Donation Section */
+        .donation-section .donation-options {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .donation-section .donation-option {
+            background-color: #282828;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.1);
+            max-width: 300px;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+        .donation-section .donation-option:hover {
+            transform: translateY(-10px);
+        }
+        .donation-section .donation-option h3 {
+            color: #00FF00;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .donation-section .donation-option p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .donation-section .donation-option .btn {
+            width: calc(100% - 20px); /* Adjust button width */
+            margin: 0;
+        }
+
+
+        /* Contribute Section Form */
+        .contribute-section form {
+            background-color: #282828;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto 0 auto;
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.1);
+            text-align: left;
+        }
+
+        .contribute-section form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00FFFF; /* Electric Cyan for labels */
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1em;
+        }
+
+        .contribute-section form input[type="text"],
+        .contribute-section form input[type="email"],
+        .contribute-section form textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-size: 1em;
+            font-family: 'Roboto', sans-serif;
+            box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contribute-section form input[type="text"]:focus,
+        .contribute-section form input[type="email"]:focus,
+        .contribute-section form textarea:focus {
+            border-color: #00FF00; /* Neon Green on focus */
+            box-shadow: inset 0 0 8px rgba(0, 255, 0, 0.3), 0 0 8px rgba(0, 255, 0, 0.3);
+            outline: none;
+        }
+
+        .contribute-section form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contribute-section form button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #FF00FF;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .contribute-section form button[type="submit"]:hover {
+            background-color: #E000E0;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0a0a0a;
+            padding: 40px 5%;
+            text-align: center;
+            font-size: 0.9em;
+            color: #a0a0a0;
+        }
+
+        .footer .footer-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .footer-links a:hover {
+            color: #00FFFF;
+        }
+
+        /* Responsive for mobile and tablet */
         @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px 5%;
+                align-items: flex-start;
+            }
+            .navbar .nav-links {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 15px;
+                display: none;
+            }
+            .navbar .nav-links.active {
+                display: flex;
+            }
+            .navbar .nav-links li {
+                margin: 10px 0;
+            }
+            .navbar .nav-cta {
+                margin-top: 15px;
+                align-self: center;
+            }
+
+            /* Hamburger icon for mobile */
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                position: absolute;
+                right: 5%;
+                top: 25px;
+                z-index: 1001;
+            }
+
+            .hamburger div {
+                width: 25px;
+                height: 3px;
+                background-color: #00FF00;
+                margin: 5px 0;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger.active .bar1 {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .hamburger.active .bar2 {
+                opacity: 0;
+            }
+            .hamburger.active .bar3 {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
             .content-box {
                 padding: 30px;
                 max-width: 90%;
             }
-            .mln-studio-reveal {
+            .hero-cta-button {
                 font-size: 2em;
             }
-            .typed-text {
-                font-size: 1.2em;
-                white-space: normal; /* اجازه شکستن خط در موبایل */
+
+            section {
+                padding: 60px 5%;
             }
-            .typed-text:first-of-type {
-                font-size: 1.5em;
+            h1 {
+                font-size: 2em;
             }
-            .join-us-text {
-                font-size: 2.5em;
+            h2 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            .about-section .values-grid,
+            .products-section .product-grid,
+            .gallery-section .gallery-grid,
+            .contribute-section .steps-grid,
+            .donation-section .donation-options {
+                grid-template-columns: 1fr;
+            }
+            .about-section .value-item,
+            .products-section .product-card,
+            .contribute-section .step-item,
+            .donation-section .donation-option {
+                text-align: center;
+            }
+            .contribute-section form input[type="text"],
+            .contribute-section form input[type="email"],
+            .contribute-section form textarea {
+                width: calc(100% - 24px); /* Adjust padding for mobile */
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero-container">
+    <!-- Navigation Bar (Navbar) -->
+    <nav class="navbar">
+        <a href="#home" class="logo">MLN STUDIO</a>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#mln-os">MLN OS</a></li>
+            <li><a href="#mln-rooms">MLN Rooms</a></li>
+            <li><a href="#nermux">Nermux</a></li>
+            <li><a href="#morningglory-wm">Morningglory WM</a></li>
+            <li><a href="#contribute">Contribute</a></li>
+            <li><a href="#donation">Donation</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="mailto:mehradtorvalds@proton.me" class="nav-cta">Join Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-container">
+        <!-- Add your video background here -->
+        <!-- Example: -->
+        <video autoplay loop muted playsinline class="background-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-particles-moving-in-a-dark-background-30811-large.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-particles-moving-in-a-dark-background-30811-large.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+
         <div class="content-box">
-            <h2 class="mln-studio-reveal">MLN STUDIO</h2>
-            <h1 class="typed-text" data-text="A Great Application didn't need a big bang."></h1>
-            <p class="typed-text" data-text="Future is coming on..."></p>
-            <p class="typed-text" data-text="Be a contributor of us as easy as you want."></p>
-            <p class="typed-text" data-text="MLN OS: Where freedom and innovation truly thrive."></p>
-            <div class="join-us-container">
-                <a href="mailto:mehradtorvalds@proton.me" class="join-us-text">JOIN US</a>
+            <h1 style="color: #00FF00; font-size: 3em; margin-bottom: 20px;">
+                MLN STUDIO
+            </h1>
+            <p style="font-size: 1.2em; max-width: 600px; margin: 0 auto 40px auto;">
+                Empowering True Freedom and Innovation in Computing.
+            </p>
+            <a href="#contribute" class="btn btn-primary hero-cta-button">JOIN US</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2>Our Vision: True Freedom in Computing</h2>
+        <p>
+            MLN Studio is an open-source group and studio operating under the GPLv3 license, emphasizing the principles of freedom, security, and universal participation in software development. We believe the future of computing should be in the hands of the community, not large corporations.
+        </p>
+        <p>
+            We are dissatisfied with the current direction of existing operating systems, which tend towards monopolization and restriction. Our goal is to build a more secure and libre alternative; a system where anyone can contribute, and no one is rejected without cause.
+        </p>
+        <div class="values-grid">
+            <div class="value-item">
+                <h3>Freedom</h3>
+                <p>We believe in software freedom and everyone's right to use, study, modify, and distribute it. MLN OS is the embodiment of this freedom.</p>
+            </div>
+            <div class="value-item">
+                <h3>Security</h3>
+                <p>Our commitment is to build an operating system with the highest security standards, ensuring users can operate with peace of mind.</p>
+            </div>
+            <div class="value-item">
+                <h3>Community</h3>
+                <p>MLN Studio is built on collective participation. We believe in the power of collaboration and rejecting no programmer.</p>
+            </div>
+            <div class="value-item">
+                <h3>Innovation</h3>
+                <p>We seek new and creative solutions in kernel and operating system development to build a better future.</p>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <h2>Our Products</h2>
+        <p>
+            Explore the core components and tools developed by MLN Studio.
+        </p>
+        <div class="product-grid">
+            <div class="product-card">
+                <h3>MLN OS</h3>
+                <p>The complete operating system, built for freedom and security. Experience computing redefined.</p>
+                <a href="#mln-os" class="btn btn-secondary">Learn More</a>
+                <a href="#" class="btn btn-primary">Download (Coming Soon)</a>
+            </div>
+            <div class="product-card">
+                <h3>Nerkel Kernel</h3>
+                <p>The robust and modular kernel powering MLN OS. The foundation of true libre computing.</p>
+                <a href="#nermux" class="btn btn-secondary">Learn More</a>
+                <a href="#" class="btn btn-primary">Download (Coming Soon)</a>
+            </div>
+            <div class="product-card">
+                <h3>Nermux Emulator</h3>
+                <p>Test and develop for Nerkel Kernel and MLN OS in a simulated environment.</p>
+                <a href="#nermux" class="btn btn-secondary">Learn More</a>
+                <a href="#" class="btn btn-primary">Download (Coming Soon)</a>
+            </div>
+            <div class="product-card">
+                <h3>Morningglory WM</h3>
+                <p>A lightweight and highly customizable window manager designed for MLN OS.</p>
+                <a href="#morningglory-wm" class="btn btn-secondary">Learn More</a>
+                <a href="#" class="btn btn-primary">Download (Coming Soon)</a>
+            </div>
+            <div class="product-card">
+                <h3>MLN Rooms</h3>
+                <p>A secure and private communication platform for MLN OS users and contributors.</p>
+                <a href="#mln-rooms" class="btn btn-secondary">Learn More</a>
+                <a href="#" class="btn btn-primary">Download (Coming Soon)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <h2>Gallery</h2>
+        <p>
+            A glimpse into the visual world of MLN Studio projects and development.
+        </p>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/00FF00?text=MLN+OS+Screenshot+1" alt="MLN OS Screenshot 1">
+                <p>MLN OS Desktop Environment</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/FF00FF?text=Nerkel+Terminal" alt="Nerkel Terminal">
+                <p>Nerkel Kernel Terminal Interface</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/00FFFF?text=Nermux+in+Action" alt="Nermux in Action">
+                <p>Nermux Emulator Running</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/00FF00?text=Morningglory+WM" alt="Morningglory WM">
+                <p>Morningglory Window Manager</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/FF00FF?text=MLN+Rooms+Chat" alt="MLN Rooms Chat">
+                <p>MLN Rooms Communication App</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/1a1a1a/00FFFF?text=Development+Setup" alt="Development Setup">
+                <p>MLN Studio Development Environment</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MLN OS Section -->
+    <section id="mln-os" class="project-detail-section">
+        <h2>MLN OS</h2>
+        <p>
+            MLN OS is our flagship operating system, meticulously crafted for the modern era of computing. It's built on the principles of ultimate freedom, robust security, and a truly community-driven development model. We aim to provide an unparalleled user experience that respects your privacy and gives you full control over your digital life.
+        </p>
+        <p>
+            Unlike other systems, MLN OS is not influenced by corporate agendas. It's developed by a passionate global community, ensuring it remains libre and secure for everyone.
+        </p>
+        <a href="https://mlnos.mlnstudio.xyz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit MLN OS Website</a>
+        <a href="#contribute" class="btn btn-secondary">Contribute to MLN OS</a>
+    </section>
+
+    <!-- MLN Rooms Section -->
+    <section id="mln-rooms" class="project-detail-section">
+        <h2>MLN Rooms</h2>
+        <p>
+            MLN Rooms is a secure and decentralized communication platform designed to foster collaboration and community among MLN OS users and contributors. We prioritize your privacy and ensure your conversations remain secure and free from surveillance.
+        </p>
+        <p>
+            Built with end-to-end encryption and a focus on user control, MLN Rooms provides a safe space for discussions, development coordination, and general interaction within the MLN Studio ecosystem.
+        </p>
+        <a href="#" class="btn btn-primary">Download MLN Rooms (Coming Soon)</a>
+        <a href="#contribute" class="btn btn-secondary">Contribute to MLN Rooms</a>
+    </section>
+
+    <!-- Nermux Section -->
+    <section id="nermux" class="project-detail-section">
+        <h2>Nermux Emulator</h2>
+        <p>
+            Nermux is a lightweight yet powerful emulator designed specifically for testing and developing on the Nerkel Kernel and MLN OS. It provides a stable and consistent environment for developers to experiment with new features, debug code, and explore the system's capabilities without needing dedicated hardware.
+        </p>
+        <p>
+            Currently supporting about 10 commands and a simple boot process, Nermux is constantly evolving, making it an essential tool for anyone looking to dive into MLN OS development.
+        </p>
+        <a href="nermux link" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Nermux (Coming Soon)</a>
+        <a href="#contribute" class="btn btn-secondary">Contribute to Nermux</a>
+    </section>
+
+    <!-- Morningglory WM Section -->
+    <section id="morningglory-wm" class="project-detail-section">
+        <h2>Morningglory WM</h2>
+        <p>
+            Morningglory WM is a highly customizable and efficient window manager built from the ground up for MLN OS. Designed for speed and flexibility, it offers a minimalist yet powerful interface that allows users to tailor their desktop experience precisely to their needs.
+        </p>
+        <p>
+            With a focus on resource efficiency and user freedom, Morningglory WM embodies the MLN Studio philosophy, providing a truly libre and adaptable desktop environment.
+        </p>
+        <a href="#" class="btn btn-primary">Download Morningglory WM (Coming Soon)</a>
+        <a href="#contribute" class="btn btn-secondary">Contribute to Morningglory WM</a>
+    </section>
+
+    <!-- Contribute Section -->
+    <section id="contribute" class="contribute-section">
+        <h2>Join the Revolution!</h2>
+        <p>
+            MLN OS is a project for everyone. We need your contribution to shape the future of computing. Whether you are an experienced programmer or just starting, there is a place for you in our community.
+        </p>
+        <div class="steps-grid">
+            <div class="step-item">
+                <h3>1. Explore Our Codebase</h3>
+                <p>Browse our Git repositories for Nerkel and MLN OS. The code is open and accessible.</p>
+            </div>
+            <div class="step-item">
+                <h3>2. Read the Documentation</h3>
+                <p>Our comprehensive documentation will guide you to get started and deeply understand the projects.</p>
+            </div>
+            <div class="step-item">
+                <h3>3. Find a "Good First Issue"</h3>
+                <p>We've marked issues suitable for easy entry. These are the best starting points for your first contribution.</p>
+            </div>
+            <div class="step-item">
+                <h3>4. Connect with Us</h3>
+                <p>Reach out to our team via email or other communication channels to ask your questions.</p>
+            </div>
+        </div>
+        <p style="margin-top: 40px;">
+            **No programmer will be rejected.** We believe in diversity and global collaboration.
+        </p>
+
+        <h3>Apply to Contribute</h3>
+        <p>Fill out the form below to let us know about your interest and skills. We'll get back to you!</p>
+        <form action="YOUR_FORMSPREE_ENDPOINT" method="POST">
+            <!-- IMPORTANT: Replace "YOUR_FORMSPREE_ENDPOINT" with your actual Formspree form URL -->
+            <!-- Example: <form action="https://formspree.io/f/yourformid" method="POST"> -->
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="_replyto" required>
+
+            <label for="skills">Your Skills (e.g., C, Assembly, Python, UI/UX, Documentation):</label>
+            <input type="text" id="skills" name="skills" placeholder="List your relevant skills">
+
+            <label for="reason">Why do you want to join MLN Studio?</label>
+            <textarea id="reason" name="reason" rows="5" required></textarea>
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </section>
+
+    <!-- Donation Section -->
+    <section id="donation" class="donation-section">
+        <h2>Support Our Mission</h2>
+        <p>
+            MLN Studio is a community-driven open-source project. Your generous donations help us cover development costs, infrastructure, and ensure MLN OS remains free and independent.
+        </p>
+        <div class="donation-options">
+            <div class="donation-option">
+                <h3>One-Time Donation</h3>
+                <p>Make a single contribution to support our ongoing efforts.</p>
+                <a href="#" class="btn btn-primary">Donate Now (Coming Soon)</a>
+            </div>
+            <div class="donation-option">
+                <h3>Monthly Support</h3>
+                <p>Become a recurring supporter and help us sustain long-term development.</p>
+                <a href="#" class="btn btn-secondary">Subscribe (Coming Soon)</a>
+            </div>
+            <div class="donation-option">
+                <h3>Cryptocurrency</h3>
+                <p>Support us with your preferred cryptocurrency.</p>
+                <a href="#" class="btn btn-primary">Crypto Wallets (Coming Soon)</a>
+            </div>
+        </div>
+        <p style="margin-top: 40px;">
+            Every contribution, big or small, makes a difference. Thank you for your support!
+        </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Get in Touch</h2>
+        <p>
+            We are always ready to hear your thoughts, suggestions, and answer your questions.
+        </p>
+        <div class="contact-info">
+            <p>Email: <a href="mailto:mehradtorvalds@proton.me">mehradtorvalds@proton.me</a></p>
+            <p>MLN OS Website: <a href="https://mlnos.mlnstudio.xyz" target="_blank" rel="noopener noreferrer">mlnos.mlnstudio.xyz</a></p>
+            <p>
+                (Social media links or Discord/Telegram channels will be added in the future.)
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#products">Products</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#mln-os">MLN OS</a>
+            <a href="#mln-rooms">MLN Rooms</a>
+            <a href="#nermux">Nermux</a>
+            <a href="#morningglory-wm">Morningglory WM</a>
+            <a href="#contribute">Contribute</a>
+            <a href="#donation">Donation</a>
+            <a href="#contact">Contact</a>
+            <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener noreferrer">GPLv3 License</a>
+        </div>
+        <p>&copy; 2025 MLN Studio. All rights reserved.</p>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mlnStudioReveal = document.querySelector('.mln-studio-reveal');
-            const typedElements = document.querySelectorAll('.typed-text');
-            const joinUsText = document.querySelector('.join-us-text');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-links');
             
-            // رنگ های RGB برای کرسر
-            const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF8C00', '#8A2BE2']; // آبی فیروزه ای، بنفش، زرد، سبز، نارنجی، بنفش مایل به آبی
-            let colorIndex = 0;
+            // Smooth scroll for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
 
-            // گام 1: پدیدار شدن MLN STUDIO
-            let currentDelay = 1000; // 1 ثانیه بعد از بارگذاری صفحه برای شروع انیمیشن کادر و MLN STUDIO
-
-            setTimeout(() => {
-                mlnStudioReveal.classList.add('active');
-            }, currentDelay);
-
-            currentDelay += 2000; // 2 ثانیه برای انیمیشن MLN STUDIO قبل از شروع تایپ اولین خط
-
-            // گام 2: تایپ خطوط
-            typedElements.forEach((element, index) => {
-                const text = element.getAttribute('data-text');
-                
-                setTimeout(() => {
-                    let charIndex = 0;
-                    element.textContent = ''; // خالی کردن متن برای شروع تایپ
-                    
-                    // تنظیم رنگ کرسر برای خط فعلی و فعال کردن آن
-                    const currentColor = colors[colorIndex % colors.length];
-                    element.style.setProperty('--caret-color', currentColor);
-                    element.style.borderRight = '.15em solid ' + currentColor;
-                    element.style.animation = 'blink-caret .75s step-end infinite'; 
-
-                    const typeInterval = setInterval(() => {
-                        if (charIndex < text.length) {
-                            element.textContent += text.charAt(charIndex);
-                            charIndex++;
-                        } else {
-                            clearInterval(typeInterval);
-                            element.style.borderRight = 'none'; // حذف کرسر بعد از اتمام تایپ
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - (document.querySelector('.navbar').offsetHeight), // Adjust for fixed navbar
+                            behavior: 'smooth'
+                        });
+                        // Close hamburger menu on mobile after clicking a link
+                        if (hamburger.classList.contains('active')) {
+                            hamburger.classList.remove('active');
+                            navMenu.classList.remove('active');
                         }
-                    }, 70); // سرعت تایپ هر کاراکتر (میلی‌ثانیه). می توانید آن را تغییر دهید.
-
-                    colorIndex++; // برای خط بعدی رنگ کرسر را تغییر بده
-
-                }, currentDelay);
-
-                // محاسبه تاخیر برای شروع خط بعدی
-                // (طول متن * سرعت تایپ هر کاراکتر) + تاخیر اضافی بین خطوط (مثلا 1000 میلی‌ثانیه)
-                currentDelay += (text.length * 70) + 1000; 
+                    }
+                });
             });
 
-            // گام 3: نمایش "JOIN US"
-            setTimeout(() => {
-                joinUsText.classList.add('active');
-            }, currentDelay + 500); // 0.5 ثانیه بعد از اتمام آخرین خط تایپ شده
+            // Hamburger menu logic for mobile
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
         });
     </script>
 </body>
