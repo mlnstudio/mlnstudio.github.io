@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLN Studio - Open Source Freedom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* تنظیمات پایه */
+        body {
+            margin: 0;
+            font-family: 'Fira Code', monospace; /* استفاده از فونت monospace */
+            color: #e0e0e0; /* رنگ متن اصلی */
+            background-color: #0d0d1a; /* رنگ پس‌زمینه کلی */
+            overflow-x: hidden; /* جلوگیری از اسکرول افقی */
+        }
+
+        /* کانتینر اصلی بخش Hero */
+        .hero-container {
+            width: 100%;
+            min-height: 100vh; /* تمام ارتفاع صفحه */
+            background: linear-gradient(to bottom right, #1a1a2e, #16213e, #0f3460); /* پس‌زمینه تیره با گرادیانت */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            /* می تونید یک تصویر پس زمینه تکنولوژیک با opacity کم اینجا اضافه کنید */
+            /* background-image: url('path/to/your/tech-bg.png'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            /* background-blend-mode: overlay; */
+        }
+
+        /* کادر محتوا شبیه ویدئو/شیشه مات */
+        .content-box {
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 50px;
+            text-align: center;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2); /* سایه نئونی آبی */
+            backdrop-filter: blur(8px); /* افکت شیشه مات */
+            -webkit-backdrop-filter: blur(8px); /* برای سازگاری با Safari */
+            transform: scale(0.95); /* کمی کوچک‌تر برای شروع */
+            opacity: 0; /* ابتدا نامرئی */
+            animation: fadeInScale 1s ease-out forwards; /* انیمیشن ورود کادر */
+            animation-delay: 0.2s; /* کمی تاخیر بعد از بارگذاری صفحه */
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* پدیدار شدن MLN STUDIO */
+        .mln-studio-reveal {
+            font-size: 3em;
+            color: #00e0ff; /* رنگ آبی فیروزه‌ای */
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* انیمیشن نرم */
+            margin-bottom: 30px;
+            letter-spacing: 0.1em; /* فاصله بین حروف */
+            text-shadow: 0 0 10px #00e0ff, 0 0 20px #00e0ff; /* افکت نئون */
+        }
+
+        .mln-studio-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* استایل های متن های تایپ شده (شعارها) */
+        .typed-text {
+            font-size: 1.8em;
+            color: #e0e0e0;
+            white-space: nowrap; /* جلوگیری از شکستن خط */
+            overflow: hidden; /* مخفی کردن متن بیرون از عرض */
+            border-right: .15em solid; /* کرسر، رنگش با JS تغییر میکنه */
+            animation: blink-caret .75s step-end infinite; /* فقط کرسر چشمک می زنه */
+            width: 0; /* عرض اولیه صفر برای مخفی بودن */
+            display: inline-block; /* برای اینکه width کار کنه */
+            padding-right: 5px; /* کمی فاصله برای کرسر */
+            text-align: left;
+            margin: 10px 0;
+            will-change: width, border-color; /* بهینه سازی پرفورمنس */
+            line-height: 1.4; /* فاصله خطوط */
+        }
+
+        /* استایل خاص برای شعار اصلی (خط اول) */
+        .typed-text:first-of-type {
+            font-weight: bold;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        /* انیمیشن کرسر چشمک زن (رنگ از طریق متغیر CSS تنظیم می شود) */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--caret-color, #fff); } /* پیش فرض سفید */
+        }
+
+        /* انیمیشن "JOIN US" */
+        .join-us-container {
+            margin-top: 50px;
+            min-height: 80px; /* برای ایجاد فضای کافی قبل از ظهور */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .join-us-text {
+            font-size: 4em;
+            font-weight: bold;
+            color: #ff00ff; /* رنگ بنفش نئونی */
+            text-decoration: none; /* چون لینک هست */
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+            opacity: 0;
+            transform: scale(0.5); /* کوچک شده در ابتدا */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            cursor: pointer; /* نشانگر ماوس */
+        }
+
+        .join-us-text.active {
+            opacity: 1;
+            transform: scale(1);
+            animation: slam-bounce 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* تابع زمان بندی کوبنده */
+        }
+
+        @keyframes slam-bounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            75% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        /* ریسپانسیو برای موبایل */
+        @media (max-width: 768px) {
+            .content-box {
+                padding: 30px;
+                max-width: 90%;
+            }
+            .mln-studio-reveal {
+                font-size: 2em;
+            }
+            .typed-text {
+                font-size: 1.2em;
+                white-space: normal; /* اجازه شکستن خط در موبایل */
+            }
+            .typed-text:first-of-type {
+                font-size: 1.5em;
+            }
+            .join-us-text {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-container">
+        <div class="content-box">
+            <h2 class="mln-studio-reveal">MLN STUDIO</h2>
+            <h1 class="typed-text" data-text="A Great Application didn't need a big bang."></h1>
+            <p class="typed-text" data-text="Future is coming on..."></p>
+            <p class="typed-text" data-text="Be a contributor of us as easy as you want."></p>
+            <p class="typed-text" data-text="MLN OS: Where freedom and innovation truly thrive."></p>
+            <div class="join-us-container">
+                <a href="mailto:mehradtorvalds@proton.me" class="join-us-text">JOIN US</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mlnStudioReveal = document.querySelector('.mln-studio-reveal');
+            const typedElements = document.querySelectorAll('.typed-text');
+            const joinUsText = document.querySelector('.join-us-text');
+            
+            // رنگ های RGB برای کرسر
+            const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF8C00', '#8A2BE2']; // آبی فیروزه ای، بنفش، زرد، سبز، نارنجی، بنفش مایل به آبی
+            let colorIndex = 0;
+
+            // گام 1: پدیدار شدن MLN STUDIO
+            let currentDelay = 1000; // 1 ثانیه بعد از بارگذاری صفحه برای شروع انیمیشن کادر و MLN STUDIO
+
+            setTimeout(() => {
+                mlnStudioReveal.classList.add('active');
+            }, currentDelay);
+
+            currentDelay += 2000; // 2 ثانیه برای انیمیشن MLN STUDIO قبل از شروع تایپ اولین خط
+
+            // گام 2: تایپ خطوط
+            typedElements.forEach((element, index) => {
+                const text = element.getAttribute('data-text');
+                
+                setTimeout(() => {
+                    let charIndex = 0;
+                    element.textContent = ''; // خالی کردن متن برای شروع تایپ
+                    
+                    // تنظیم رنگ کرسر برای خط فعلی و فعال کردن آن
+                    const currentColor = colors[colorIndex % colors.length];
+                    element.style.setProperty('--caret-color', currentColor);
+                    element.style.borderRight = '.15em solid ' + currentColor;
+                    element.style.animation = 'blink-caret .75s step-end infinite'; 
+
+                    const typeInterval = setInterval(() => {
+                        if (charIndex < text.length) {
+                            element.textContent += text.charAt(charIndex);
+                            charIndex++;
+                        } else {
+                            clearInterval(typeInterval);
+                            element.style.borderRight = 'none'; // حذف کرسر بعد از اتمام تایپ
+                        }
+                    }, 70); // سرعت تایپ هر کاراکتر (میلی‌ثانیه). می توانید آن را تغییر دهید.
+
+                    colorIndex++; // برای خط بعدی رنگ کرسر را تغییر بده
+
+                }, currentDelay);
+
+                // محاسبه تاخیر برای شروع خط بعدی
+                // (طول متن * سرعت تایپ هر کاراکتر) + تاخیر اضافی بین خطوط (مثلا 1000 میلی‌ثانیه)
+                currentDelay += (text.length * 70) + 1000; 
+            });
+
+            // گام 3: نمایش "JOIN US"
+            setTimeout(() => {
+                joinUsText.classList.add('active');
+            }, currentDelay + 500); // 0.5 ثانیه بعد از اتمام آخرین خط تایپ شده
+        });
+    </script>
+</body>
+</html>
